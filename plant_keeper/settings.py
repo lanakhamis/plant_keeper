@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'planet_keeper.urls'
+ROOT_URLCONF = 'plant_keeper.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'planet_keeper.wsgi.application'
+WSGI_APPLICATION = 'plant_keeper.wsgi.application'
 
 
 # Database
