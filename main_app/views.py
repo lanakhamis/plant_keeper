@@ -16,6 +16,10 @@ from .models import Plant, Reminder
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from .forms import UserUpdateForm, ProfileUpdateForm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 class PlantList(LoginRequiredMixin, ListView):
     model = Plant
@@ -126,3 +130,44 @@ def signup(request):
 def logout_view(request):
     logout(request)
     return redirect('login')  # أو أي صفحة تريدينها
+
+
+@login_required # لضمان أن المستخدم مسجل للدخول
+def profile_view(request):
+    if request.method == 'POST':
+        # تهيئة النماذج بالبيانات المرسلة والـInstance الحالية للمستخدم
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        # ملاحظة: نضيف request.FILES لأن النموذج يحتوي على حقل صورة
+        p_form = ProfileUpdateForm(request.POST, 
+                                   request.FILES, 
+                                   instance=request.user.profile)
+        
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your profile has been updated successfully!')
+            return redirect('my_profile') # إعادة التوجيه إلى نفس الصفحة بعد الحفظ
+
+    else:
+        # إذا كانت طريقة الطلب GET (لأول مرة لفتح الصفحة)، نعرض النماذج ببيانات المستخدم الحالية
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    
+    return render(request, 'profiles/profile.html', context)
+
+@login_required
+@csrf_exempt
+def remove_profile_image(request):
+    if request.method == "POST":
+        profile = request.user.profile
+        if profile.image and profile.image.name != 'default.jpg':
+            profile.image.delete(save=False)
+            profile.image = 'default.jpg'
+            profile.save()
+        return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "failed"}, status=400)

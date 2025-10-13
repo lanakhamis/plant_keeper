@@ -129,3 +129,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = '/plants/'  # اسم الرابط لصفحة تسجيل الدخول
 LOGIN_REDIRECT_URL = 'plant_list'  # الصفحة بعد تسجيل الدخول
 LOGOUT_REDIRECT_URL = 'login'  # الصفحة بعد تسجيل الخروج
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

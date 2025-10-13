@@ -3,7 +3,8 @@ from django.urls import reverse
 from datetime import timedelta, date
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 #  PLANT MODEL
 class Plant(models.Model):
@@ -88,3 +89,39 @@ class Reminder(models.Model):
 
     def is_due(self):
         return date.today() >= self.reminder_date
+    
+    # main_app/models.py
+
+
+
+# نموذج ملف المستخدم الشخصي
+class Profile(models.Model):
+    # ربط النموذج بنموذج المستخدم الافتراضي (User)
+    # OneToOneField: يعني كل مستخدم لديه Profile واحد فقط
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    # الحقول الإضافية المطلوبة:
+    image = models.ImageField(
+        default='profile_pics/default.jpg', # صورة افتراضية
+        upload_to='profile_pics', # المجلد الذي ستُحفظ فيه الصور في Media
+        verbose_name='your profile picture'
+    )
+    bio = models.TextField(
+        max_length=500, 
+        blank=True, 
+        verbose_name='Bio'
+    )
+    # يمكنك إضافة أي حقل إضافي هنا مثل: favorite_plant
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
+
+# دوال (Signals) لإنشاء ملف شخصي لكل مستخدم جديد تلقائياً
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
