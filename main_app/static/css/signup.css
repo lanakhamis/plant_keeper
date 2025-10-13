@@ -1,0 +1,99 @@
+/* ====== BODY ====== */
+body {
+    background-color: #eaf7ea;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* ====== CARD ====== */
+.card-auth {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 30px 25px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* ====== HEADINGS ====== */
+.card-auth h2 {
+    margin-bottom: 10px;
+    color: #2e7d32;
+}
+
+.card-auth h5 {
+    margin-bottom: 25px;
+    color: #555;
+    font-weight: 400;
+}
+
+/* ====== INPUT FIELDS ====== */
+.card-auth input[type="text"],
+.card-auth input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* ====== BUTTON ====== */
+.btn-plant {
+    width: 100%;
+    padding: 12px;
+    border-radius: 30px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white !important;
+}
+
+.btn-plant:hover {
+    background-color: #45a049;
+    color: white !important;
+}
+
+/* ====== ERROR MESSAGE ====== */
+.text-danger {
+    color: #ff4d4f !important;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* ====== LINKS ====== */
+.card-auth a {
+    text-decoration: none;
+    color: #2e7d32;
+}
+
+.card-auth a:hover {
+    text-decoration: underline;
+}
+
+    /* body {
+      background: #f1f8f1;
+      font-family: 'Poppins', sans-serif;
+    }
+    .card {
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .btn-plant {
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 30px;
+    }
+    .btn-plant:hover {
+      background-color: #45a049;
+    } */

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}My Plants{% endblock %}
+{% block content %}
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-success">🌱 My Plants</h2>
+    <a href="{% url 'plant_create' %}" class="btn btn-success">
+      <i class="bi bi-plus-lg"></i> Add New Plant
+    </a>
+  </div>
+
+  {% if plants %}
+    <div class="row g-4">
+      {% for plant in plants %}
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-success">
+                <a href="{% url 'plant_detail' plant.pk %}" class="text-success text-decoration-none">
+                  {{ plant.name }}
+                </a>
+                  {% if plant.needs_watering %}
+                    <span class="badge bg-warning text-dark">💧 Needs watering today!</span>
+                  {% endif %}
+
+                    {% for reminder in reminders_today %}
+                      {% if reminder.plant.id == plant.id %}
+                         <span class="badge bg-info text-dark">⏰ {{ reminder.reminder_type }} today!</span>
+                      {% endif %}
+                    {% endfor %}
+
+              </h5>
+
+              <ul class="list-unstyled mb-3">
+                <li><strong>Species:</strong> {{ plant.species }}</li>
+                <li><strong>Date added:</strong> {{ plant.date_added|date:"Y-m-d" }}</li>
+                <li>
+                  <strong>Last watered:</strong>
+                  {% if plant.last_watered_date %}
+                    {{ plant.last_watered_date|date:"Y-m-d" }}
+                  {% else %}
+                    <span class="text-muted">Not yet</span>
+                  {% endif %}
+                </li>
+                <li><strong>Watering every:</strong> {{ plant.watering_frequency }} days</li>
+              </ul>
+
+              <p class="card-text text-muted small">
+                {{ plant.notes|default:"No notes yet" }}
+              </p>
+
+              <div class="d-flex justify-content-end gap-2">
+                <a href="{% url 'plant_detail' plant.pk %}" class="btn btn-outline-success btn-sm">View</a>
+                <a href="{% url 'plant_edit' plant.pk %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                <a href="{% url 'plant_delete' plant.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center mt-5">
+      🌿 No plants added yet.
+      <a href="{% url 'plant_create' %}" class="alert-link">Add your first one!</a>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+
+

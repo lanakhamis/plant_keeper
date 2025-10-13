@@ -1,0 +1,144 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e8f5ec, #cae8d3);
+    margin: 0;
+    padding: 0;
+    color: #1f3e2b;
+}
+
+header {
+    background-color: #6cb68a;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    letter-spacing: 0.5px;
+}
+
+.dashboard {
+    width: 90%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+h2 {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.plant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.plant-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    text-decoration: none;
+    color: #1f3e2b;
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+}
+
+.plant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    border-color: #6cb68a;
+    background-color: #f7fff9;
+}
+
+.plant-card h3,
+.plant-card p {
+    text-decoration: none;
+}
+
+.plant-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.plant-info h3 {
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+    font-weight: 600;
+}
+
+.plant-info p {
+    margin: 0;
+    color: #4f6d5a;
+    font-size: 0.95rem;
+}
+
+.empty-msg {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: #4f6d5a;
+}
+
+.add-container {
+    margin-top: 2.5rem;
+}
+
+.add-btn {
+    display: inline-block;
+    background-color: #6cb68a;
+    color: #fff;
+    font-weight: 600;
+    padding: 0.9rem 1.6rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.add-btn:hover {
+    background-color: #5ba179;
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    .plant-card {
+        padding: 1rem;
+    }
+
+    .plant-icon img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .add-btn {
+        padding: 0.8rem 1.4rem;
+    }
+}
+.logout-btn {
+    float: right;
+    padding: 8px 16px;
+    background-color: #f25c54;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background-color: #d94a44;
+}

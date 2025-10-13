@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Add / Edit Plant{% endblock %}
+{% block content %}
+
+<div class="container py-5 d-flex justify-content-center">
+  <div class="card shadow-sm p-4" style="max-width: 450px; width: 100%;">
+    <h3 class="text-success text-center mb-4">
+      🌿 {{ view.object|default:"Add New Plant" }}
+    </h3>
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <a href="{% url 'plant_list' %}" class="btn btn-secondary">⬅️ Back</a>
+        <button type="submit" class="btn btn-success">💾 Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+
+

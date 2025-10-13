@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ plant.name }}{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h2 class="text-success">
+        {{ plant.name }}
+        {% if plant.needs_watering %}
+            <span class="badge bg-warning text-dark">💧 Needs watering today!</span>
+        {% endif %}
+
+        {% if today_reminders %}
+          {% for reminder in today_reminders %}
+            <span class="badge bg-info text-dark">⏰ {{ reminder.reminder_type }} today!</span>
+          {% endfor %}
+        {% endif %}
+      </h2>
+      <p class="text-muted mb-2"><strong>Species:</strong> {{ plant.species }}</p>
+      <p><strong>Date added:</strong> {{ plant.date_added|date:"Y-m-d" }}</p>
+      <p><strong>Last watered:</strong>
+        {% if plant.last_watered_date %}
+          {{ plant.last_watered_date|date:"Y-m-d" }}
+        {% else %}
+          <span class="text-muted">Not yet</span>
+        {% endif %}
+      </p>
+      <p><strong>Next watering:</strong>
+        {% if plant.next_watering_date %}
+          {{ plant.next_watering_date|date:"Y-m-d" }}
+        {% else %}
+          <span class="text-muted">Not scheduled</span>
+        {% endif %}
+      </p>
+
+
+      <p><strong>Water every:</strong> {{ plant.watering_frequency }} days</p>
+      <p><strong>Notes:</strong> {{ plant.notes|default:"-" }}</p>
+
+      <hr>
+
+      <div class="d-flex gap-2">
+        <a href="{% url 'plant_edit' plant.pk %}" class="btn btn-outline-success">✏️ Edit</a>
+        <a href="{% url 'plant_delete' plant.pk %}" class="btn btn-outline-danger">🗑️ Delete</a>
+        <a href="{% url 'plant_list' %}" class="btn btn-secondary">⬅️ Back</a>
+        <a href="{% url 'reminder_add' %}?plant_id={{ plant.id }}" class="btn btn-outline-success">⏰ Add Reminder</a>
+      
+      </div>
+      <hr>    
+      <h4 class="mt-4 text-success">⏰ Upcoming Reminders</h4>
+          {% if reminders %}
+            <ul>
+              {% for reminder in reminders %}
+                <li>
+                  <strong>{{ reminder.reminder_type }}</strong> – {{ reminder.reminder_date }}<br>
+                  <small>{{ reminder.message }}</small>
+                </li>
+               {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">No reminders yet.</p>
+          {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
