@@ -7,8 +7,8 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 from django.contrib import messages
-from datetime import date
-from django.shortcuts import redirect, get_object_or_404 ,render
+from datetime import date, timedelta
+from django.shortcuts import redirect, get_object_or_404, render
 from .forms import PlantForm
 from .forms import ReminderForm
 from django.views.generic import DetailView
@@ -17,23 +17,35 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
 
+
 class PlantList(LoginRequiredMixin, ListView):
     model = Plant
     template_name = "plants/index.html"
     context_object_name = "plants"
 
     def get_queryset(self):
-        # تعرض فقط النباتات الخاصة بالمستخدم الحالي
+        # فقط النباتات الخاصة بالمستخدم الحالي
         return Plant.objects.filter(user=self.request.user)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         today = date.today()
-        # كل التذكيرات اليوم
-        #this (plant__user=self.request.user) shulde write 
-        context["reminders_today"] = Reminder.objects.filter(reminder_date=today, is_completed=False)
-        return context
+        next_week = today + timedelta(days=7)
 
+        # 🔹 جلب التذكيرات القادمة خلال 7 أيام
+        context["reminders_today"] = Reminder.objects.filter(
+            reminder_date__range=(today, next_week),
+            is_completed=False,
+            plant__user=self.request.user,
+        )
+
+        # 🔹 عدد النباتات التي تحتاج سقي
+        needs_watering_plants = [
+            plant for plant in context["plants"] if plant.needs_watering
+        ]
+        context["needs_watering_count"] = len(needs_watering_plants)
+
+        return context
 
 
 class PlantCreate(LoginRequiredMixin, CreateView):
@@ -61,11 +73,14 @@ class PlantDetail(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         plant = self.get_object()
         # التذكيرات القادمة للنبتة
-        context['reminders'] = Reminder.objects.filter(plant=plant, is_completed=False, reminder_date__gte=date.today()).order_by('reminder_date')
+        context["reminders"] = Reminder.objects.filter(
+            plant=plant, is_completed=False, reminder_date__gte=date.today()
+        ).order_by("reminder_date")
         # تذكيرات اليوم فقط للbadge
-        context['today_reminders'] = Reminder.objects.filter(plant=plant, is_completed=False, reminder_date=date.today())
+        context["today_reminders"] = Reminder.objects.filter(
+            plant=plant, is_completed=False, reminder_date=date.today()
+        )
         return context
-
 
 
 class PlantUpdate(LoginRequiredMixin, UpdateView):
@@ -113,16 +128,18 @@ class ReminderCreate(LoginRequiredMixin, CreateView):
             context["plant"] = get_object_or_404(Plant, pk=plant_id)
         return context
 
+
 def signup(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect("login")
     else:
         form = UserCreationForm()
-    return render(request, 'plants/signup.html', {'form': form})
+    return render(request, "plants/signup.html", {"form": form})
+
 
 def logout_view(request):
     logout(request)
-    return redirect('login')  # أو أي صفحة تريدينها
+    return redirect("login")  # أو أي صفحة تريدينها

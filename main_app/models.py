@@ -12,7 +12,7 @@ class Plant(models.Model):
     date_added = models.DateField(auto_now_add=True)
     last_watered_date = models.DateField(blank=True, null=True)
     watering_frequency = models.IntegerField(
-        default=7, help_text="How often to water (in days)"
+        default=7, help_text="Days between watering"
     )
     notes = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -24,13 +24,13 @@ class Plant(models.Model):
         return reverse("plant_detail", kwargs={"pk": self.id})
 
     def next_watering_date(self):
-        """Calculate the next watering date."""
         if self.last_watered_date:
             return self.last_watered_date + timedelta(days=self.watering_frequency)
         return None
+
     @property
     def needs_watering(self):
-        """Check if the plant needs to be watered today."""
+        """Check if the plant needs watering today."""
         if not self.last_watered_date:
             return True
         days_passed = (date.today() - self.last_watered_date).days
