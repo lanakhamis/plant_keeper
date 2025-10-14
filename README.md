@@ -108,7 +108,34 @@ Follow these steps to set up the project locally:
     python manage.py runserver
 
 6.Open the app:
-    Go to http://localhost:8000    
+    Go to http://localhost:8000   
+
+🧪 Running Tests
+
+To ensure the application works as expected, automated tests are provided for the models and views.
+
+-Run all tests with:
+
+    python manage.py test main_app
+
+-You should see an output similar to:
+
+    Found 14 test(s).
+    Creating test database for alias 'default'...
+    System check identified no issues (0 silenced).
+    ..............
+    Ran 14 tests in 29.509s
+
+    OK
+    Destroying test database for alias 'default'...
+
+-These tests cover:
+
+1.Plant model methods (needs_watering, next_watering_date)
+2.Reminder model methods (is_due, mark_completed)
+3.CRUD views for Plants (list, detail, create, update, delete)
+4.CRUD views for Reminders (list, create)
+5.Authentication-required access for protected views 
 
 👥 User Stories
 
