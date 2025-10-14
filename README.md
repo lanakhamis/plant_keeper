@@ -11,9 +11,13 @@ The main goal of this project is to make plant maintenance easy and consistent b
 🧠 Objectives
 
 *Help users manage their plants efficiently.
+
 *Remind users when a plant needs watering.
+
 *Store and track information such as plant name, type, and watering schedule.
+
 *Demonstrate Python fundamentals including loops, conditionals, file handling, and date operations.
+
 *Provide a base that can be expanded into advanced applications (with GUI or notifications)
 
 ⚙️ Tech Stack
@@ -108,14 +112,15 @@ Follow these steps to set up the project locally:
 
 👥 User Stories
 
-| # | User Type  | User Story                                                                        | Acceptance Criteria                                 |
-| - | -----------| ----------------------------------------------------------------------------------- | 
-| 1 | Plant Owner| As a user, I want to create an account so that I can register my plants.          | User can sign up and log in successfully.           |
-| 2 | Plant Owner| As a user, I want to register plants with details so that I can track their growth| User can add a new plant with all    required details.|
-| 3 | Plant Owner| As a user, I want to update plant information so that I can keep accurate records.| User can edit plant details.                        |
-| 4 | Plant Owner| As a user, I want to delete a plant if I no longer own it.                        | User can delete any plant they own.                 |
-| 5 | Plant Owner| As a user, I want to view all my plants in one place.                             | Dashboard shows all user plants.                    |
-| 6 | Visitor    | As a visitor, I want to browse plant types and tips before registering.           | Visitor can view plants and tips without login.     |
+| # | User Type   | User Story                                                                          | Acceptance Criteria                                 |
+| - | ----------- | ----------------------------------------------------------------------------------- | --------------------------------------------------- |
+| 1 | Plant Owner | As a user, I want to create an account so that I can register my plants.            | User can sign up and log in successfully.           |
+| 2 | Plant Owner | As a user, I want to register plants with details so that I can track their growth. | User can add a new plant with all required details. |
+| 3 | Plant Owner | As a user, I want to update plant information so that I can keep accurate records.  | User can edit plant details.                        |
+| 4 | Plant Owner | As a user, I want to delete a plant if I no longer own it.                          | User can delete any plant they own.                 |
+| 5 | Plant Owner | As a user, I want to view all my plants in one place.                               | Dashboard shows all user plants.                    |
+
+
 
 🚀 Future Enhancements
 
