@@ -80,3 +80,14 @@ body {
 .card-auth a:hover {
     text-decoration: underline;
 }
+.card-auth input[type="text"],
+.card-auth input[type="password"],
+.card-auth input[type="email"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}

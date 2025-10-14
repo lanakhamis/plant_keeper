@@ -14,7 +14,7 @@
 
 
       <form method="POST">
-  {% csrf_token %}
+      {% csrf_token %}
   {% for field in form %}
     <div class="mb-3">
       {{ field.label_tag }}

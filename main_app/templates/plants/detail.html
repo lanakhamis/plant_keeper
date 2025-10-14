@@ -46,6 +46,26 @@
         <a href="{% url 'reminder_add' %}?plant_id={{ plant.id }}" class="btn btn-outline-success">⏰ Add Reminder</a>
       
       </div>
+
+         <hr>
+      <h4 class="mt-4 text-success">🌱 Care Log</h4>
+      <div class="mb-3">
+          <a href="{% url 'carelog_add' %}?plant_id={{ plant.id }}" class="btn btn-outline-success mb-2">➕ Add Care Log</a>
+      </div>
+
+      {% if care_logs %}
+    <ul>
+          {% for log in care_logs %}
+            <li>
+              <strong>{{ log.action }}</strong> – {{ log.date|date:"Y-m-d" }}<br>
+              <small>{{ log.note|default:"-" }}</small>
+            </li>
+          {% endfor %}
+          </ul>
+      {% else %}
+          <p class="text-muted">No care logs yet.</p>
+      {% endif %}
+  
       <hr>    
       <h4 class="mt-4 text-success">⏰ Upcoming Reminders</h4>
           {% if reminders %}

@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from django.shortcuts import redirect, get_object_or_404, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy ,reverse
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -16,8 +16,8 @@ from django.views.generic import (
     DeleteView,
 )
 
-from .models import Plant, Reminder
-from .forms import PlantForm, ReminderForm, UserUpdateForm, ProfileUpdateForm
+from .models import Plant, Reminder , CareLog
+from .forms import PlantForm, ReminderForm, UserUpdateForm, ProfileUpdateForm , CareLogForm , CustomUserCreationForm
 
 
 class PlantList(LoginRequiredMixin, ListView):
@@ -74,6 +74,10 @@ class PlantDetail(LoginRequiredMixin, DetailView):
         context["today_reminders"] = Reminder.objects.filter(
             plant=plant, is_completed=False, reminder_date=date.today()
         )
+
+        # سجل العناية (Care Log) مرتب حسب الأحدث أولاً
+        context['care_logs'] = CareLog.objects.filter(plant=plant).order_by('-date')
+
         return context
 
 
@@ -97,7 +101,35 @@ class ReminderList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Reminder.objects.filter(plant__user=self.request.user)
+    
+# /////////////////////////////////////add CEARE LOG //////////////////////
 
+class CareLogCreate(LoginRequiredMixin, CreateView):
+    model = CareLog
+    form_class = CareLogForm
+    template_name = "carelog/carelog_form.html"
+
+    def form_valid(self, form):
+        plant_id = self.request.GET.get('plant_id')
+        if not plant_id:
+            from django.http import HttpResponseBadRequest
+            return HttpResponseBadRequest("Missing plant_id")
+
+        # ربط الـ CareLog بالنبتة قبل الحفظ
+        form.instance.plant_id = plant_id
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plant_id = self.request.GET.get('plant_id')
+        if plant_id:
+            context['plant'] = Plant.objects.get(pk=plant_id)
+        return context
+
+
+    def get_success_url(self):
+        # بعد الحفظ، إعادة التوجيه إلى صفحة تفاصيل النبتة
+        return reverse("plant_detail", kwargs={"pk": self.object.plant.pk})
 
 class ReminderCreate(LoginRequiredMixin, CreateView):
     model = Reminder
@@ -122,12 +154,15 @@ class ReminderCreate(LoginRequiredMixin, CreateView):
 
 def signup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        # form = UserCreationForm(request.POST)
+        # form = CustomLoginForm(request, data=request.POST or None)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("login")
     else:
-        form = UserCreationForm()
+        # form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, "plants/signup.html", {"form": form})
 
 
