@@ -1,3 +1,13 @@
+from datetime import date, timedelta
+from django.shortcuts import redirect, get_object_or_404, render
+from django.urls import reverse_lazy
+from django.http import JsonResponse
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (
     ListView,
     DetailView,
@@ -5,17 +15,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from django.urls import reverse_lazy
-from django.contrib import messages
-from datetime import date, timedelta
-from django.shortcuts import redirect, get_object_or_404, render
-from .forms import PlantForm
-from .forms import ReminderForm
-from django.views.generic import DetailView
+
 from .models import Plant, Reminder
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import logout
+from .forms import PlantForm, ReminderForm, UserUpdateForm, ProfileUpdateForm
 
 
 class PlantList(LoginRequiredMixin, ListView):
@@ -24,7 +26,6 @@ class PlantList(LoginRequiredMixin, ListView):
     context_object_name = "plants"
 
     def get_queryset(self):
-        # فقط النباتات الخاصة بالمستخدم الحالي
         return Plant.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
@@ -32,19 +33,16 @@ class PlantList(LoginRequiredMixin, ListView):
         today = date.today()
         next_week = today + timedelta(days=7)
 
-        # 🔹 جلب التذكيرات القادمة خلال 7 أيام
         context["reminders_today"] = Reminder.objects.filter(
             reminder_date__range=(today, next_week),
             is_completed=False,
             plant__user=self.request.user,
         )
 
-        # 🔹 عدد النباتات التي تحتاج سقي
         needs_watering_plants = [
             plant for plant in context["plants"] if plant.needs_watering
         ]
         context["needs_watering_count"] = len(needs_watering_plants)
-
         return context
 
 
@@ -55,11 +53,7 @@ class PlantCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("plant_list")
 
     def form_valid(self, form):
-        if self.request.user.is_authenticated:
-            form.instance.user = self.request.user
-        else:
-            form.instance.user_id = 1
-
+        form.instance.user = self.request.user
         messages.success(self.request, "🌿 Plant added successfully!")
         return super().form_valid(form)
 
@@ -72,11 +66,11 @@ class PlantDetail(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         plant = self.get_object()
-        # التذكيرات القادمة للنبتة
+
         context["reminders"] = Reminder.objects.filter(
             plant=plant, is_completed=False, reminder_date__gte=date.today()
         ).order_by("reminder_date")
-        # تذكيرات اليوم فقط للbadge
+
         context["today_reminders"] = Reminder.objects.filter(
             plant=plant, is_completed=False, reminder_date=date.today()
         )
@@ -90,22 +84,19 @@ class PlantUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("plant_list")
 
 
-# 🗑️ حذف النبتة
 class PlantDelete(LoginRequiredMixin, DeleteView):
     model = Plant
     template_name = "plants/confirm_delete.html"
     success_url = reverse_lazy("plant_list")
 
 
-class ReminderList(ListView):
+class ReminderList(LoginRequiredMixin, ListView):
     model = Reminder
     template_name = "reminders/index.html"
     context_object_name = "reminders"
 
-    def form_valid(self, form):
-        # ربط النبات بالمستخدم الحالي تلقائياً
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    def get_queryset(self):
+        return Reminder.objects.filter(plant__user=self.request.user)
 
 
 class ReminderCreate(LoginRequiredMixin, CreateView):
@@ -142,4 +133,39 @@ def signup(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("login")  # أو أي صفحة تريدينها
+    return redirect("login")
+
+
+@login_required
+def profile_view(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your profile has been updated successfully!")
+            return redirect("my_profile")
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {"u_form": u_form, "p_form": p_form}
+    return render(request, "profiles/profile.html", context)
+
+
+@login_required
+@csrf_exempt
+def remove_profile_image(request):
+    if request.method == "POST":
+        profile = request.user.profile
+        if profile.image and profile.image.name != "default.jpg":
+            profile.image.delete(save=False)
+            profile.image = "default.jpg"
+            profile.save()
+        return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "failed"}, status=400)

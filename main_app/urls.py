@@ -36,5 +36,10 @@ urlpatterns = [
     path("reminders/add/", views.ReminderCreate.as_view(), name="reminder_add"),
     path('signup/', views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='plants/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('profile/', views.profile_view, name='my_profile'),
+    path('profile/remove-image/', views.remove_profile_image, name='remove_profile_image'),
 ]
+
+
+    

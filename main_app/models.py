@@ -1,8 +1,9 @@
+from datetime import timedelta, date
 from django.db import models
 from django.urls import reverse
-from datetime import timedelta, date
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 #  PLANT MODEL
@@ -24,6 +25,7 @@ class Plant(models.Model):
         return reverse("plant_detail", kwargs={"pk": self.id})
 
     def next_watering_date(self):
+        """Return the next watering date based on the last watered date."""
         if self.last_watered_date:
             return self.last_watered_date + timedelta(days=self.watering_frequency)
         return None
@@ -37,7 +39,7 @@ class Plant(models.Model):
         return days_passed >= self.watering_frequency
 
 
-#  CARE LOG MODEL
+# CARE LOG MODEL
 class CareLog(models.Model):
     ACTIONS = [
         ("Watered", "Watered"),
@@ -58,13 +60,14 @@ class CareLog(models.Model):
         return reverse("carelog_detail", kwargs={"pk": self.id})
 
 
-# REMINDER MODEL
+#  REMINDER MODEL
 class Reminder(models.Model):
     REMINDER_TYPES = [
         ("Water", "Water"),
         ("Fertilizer", "Fertilizer"),
         ("Check Soil", "Check Soil"),
     ]
+
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
     reminder_type = models.CharField(
         max_length=50, choices=REMINDER_TYPES, default="Water"
@@ -83,8 +86,36 @@ class Reminder(models.Model):
         return reverse("reminder_detail", kwargs={"pk": self.id})
 
     def mark_completed(self):
+        """Mark this reminder as completed."""
         self.is_completed = True
         self.save()
 
     def is_due(self):
+        """Check if the reminder is due today or past."""
         return date.today() >= self.reminder_date
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(
+        default="profile_pics/default.jpg",
+        upload_to="profile_pics",
+        verbose_name="Your profile picture",
+    )
+    bio = models.TextField(max_length=500, blank=True, verbose_name="Bio")
+
+    def __str__(self):
+        return f"{self.user.username} Profile"
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    """Automatically create a Profile whenever a new User is created."""
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    """Save the user's profile whenever the User object is saved."""
+    instance.profile.save()

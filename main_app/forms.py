@@ -1,6 +1,7 @@
 from django import forms
 from .models import Plant, Reminder
-
+from .models import Profile
+from django.contrib.auth.models import User
 
 class PlantForm(forms.ModelForm):
     class Meta:
@@ -29,4 +30,28 @@ class ReminderForm(forms.ModelForm):
                 attrs={"type": "date", "class": "form-control"}
             ),
             "message": forms.TextInput(attrs={"class": "form-control"}),
+        }
+
+
+# نموذج لتعديل البيانات المرتبطة بـ Profile
+# ... (باقي الاستيرادات)
+
+# نموذج لتعديل بيانات المستخدم الأساسية (Email)
+class UserUpdateForm(forms.ModelForm):
+    # يمكننا إضافة حقل الإيميل هنا
+    email = forms.EmailField() 
+    
+    class Meta:
+        model = User
+        # الحقول التي سيتم تعديلها من نموذج User
+        fields = ['username', 'email']
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        # الحقول التي سيتم تعديلها من نموذج Profile
+        fields = ['image', 'bio']
+        # 💡 التعديل هنا: لإخفاء اسم الحقل 'image' من النموذج
+        labels = {
+            'image': '', # تعيين القيمة الفارغة لمنع ظهور اسم الحقل
         }
