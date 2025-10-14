@@ -1,7 +1,9 @@
 from django import forms
-from .models import Plant, Reminder
+from .models import Plant, Reminder , CareLog
 from .models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
 
 class PlantForm(forms.ModelForm):
     class Meta:
@@ -32,7 +34,25 @@ class ReminderForm(forms.ModelForm):
             "message": forms.TextInput(attrs={"class": "form-control"}),
         }
 
+# /////add (Lujain)////////////////////
+class CareLogForm(forms.ModelForm):
+    class Meta:
+        model = CareLog
+        fields = ['action', 'note']  # التاريخ يضيف تلقائياً بسبب auto_now_add
+        widgets = {
+            'note': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add any notes...'}),
+            'action': forms.Select(attrs={'class': 'form-select'}),
+        }
 
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+        # 'placeholder': 'Enter your email'
+    }))
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
 # نموذج لتعديل البيانات المرتبطة بـ Profile
 # ... (باقي الاستيرادات)
 

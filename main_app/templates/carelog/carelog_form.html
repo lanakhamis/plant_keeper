@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Add Care Log{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="text-success">Add Care Log</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'plant_detail' plant.pk %}" class="btn btn-secondary">Back</a>
+  </form>
+</div>
+{% endblock %}
