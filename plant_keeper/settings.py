@@ -9,12 +9,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ⚙️ Security
-SECRET_KEY = "django-insecure-t)e61-va(@n5h)_px&bxju-gi137%p604zhtnmxe%^1lx!k(&5"
-DEBUG = False
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'some-default-secret-key-for-dev')
+#DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+#ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
-ALLOWED_HOSTS = ['*']
-
-
+DEBUG = True
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # 🧩 Installed apps
 INSTALLED_APPS = [
     "main_app",

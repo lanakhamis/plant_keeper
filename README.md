@@ -2,10 +2,7 @@
 
 ## 📘 Project Overview
 
-The Plant Keeper project is a practical Django web application designed to help users take better care of their plants.
-It enables users to record important details such as plant name, species, and watering frequency, and provides reminders when it’s time to water them.
-
-The main goal of this project is to make plant maintenance easy and consistent by offering an intuitive system that tracks watering schedules and plant health over time.
+Plant Keeper is a practical Django-based web application designed to help users take better care of their plants. It allows users to record important details such as plant name, species, and watering frequency, as well as add, edit, and delete plants through a clean, responsive Bootstrap interface. The system also provides smart reminders to notify users when it’s time to water their plants and helps them monitor which plants need attention — making plant maintenance simple, organized, and enjoyable.
 
 ## 🧠 Objectives
 
@@ -21,13 +18,15 @@ The main goal of this project is to make plant maintenance easy and consistent b
 
 ## ⚙️ Tech Stack
 
-| Category            | Tools & Technologies        |
-| ------------------- | --------------------------- |
-| **Frontend**        | HTML, CSS, Django Templates |
-| **Backend**         | Django (Python Framework)   |
-| **Database**        | SQLite                      |
-| **Version Control** | Git & GitHub                |
-| **IDE / Tools**     | Visual Studio Code          |
+| Category           | Tools & Technologies          |
+|-------------------|-------------------------------|
+| **Frontend**       | Bootstrap 5 + HTML Templates |
+| **Backend**        | Django (Python Framework)     |
+| **Database**       | SQLite                        |
+| **Authentication** | Django’s built-in User Model |
+| **Version Control**| Git & GitHub                  |
+| **IDE / Tools**    | Visual Studio Code            |
+
 
 ## 🗃️ Database Design (ERD Overview)
 
@@ -166,6 +165,18 @@ To ensure the application works as expected, automated tests are provided for th
 
 ## 🧩 Challenges & Solutions
 
+1. Organizing Models and Views
+   Challenge: As models grew, keeping the logic maintainable became difficult.
+   Solution: Split the app into separate files (models.py, views.py, forms.py, signals.py) and used Django’s get_absolute_url() for clean redirections and better maintainability.
+2. GitHub Merge Conflicts During Collaboration
+   Challenge: While collaborating and pushing code updates to GitHub, we faced *merge conflicts* caused by multiple changes to the same files (especially models and templates).  
+   This led to inconsistent code versions and occasional loss of small updates.
+   Solution: Using dedicated *feature branches* , Running git pull --rebase origin main before every push to stay up-to-date.
+ 3. Profile Image Preview Issue
+    Challenge:The new profile image didn’t appear until clicking *“Save Changes.”*
+    Solution:Added a small JavaScript function to *preview the image instantly* after selection using URL.createObjectURL().
+ 4. Default Profile Image Issue
+    Challenge: The default profile image didn’t appear when users created a new account.
 
 ## 📝 Summary
 
