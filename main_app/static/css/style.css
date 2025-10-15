@@ -1,4 +1,17 @@
 /********** Template CSS **********/
+
+/* Plant Animation */
+
+.plant-animation img.animate-plant {
+    width: 150px;
+    animation: floatPlant 3s ease-in-out infinite;
+}
+
+@keyframes floatPlant {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
 :root {
     --primary: #348E38;
     --secondary: #525368;
@@ -113,7 +126,7 @@ h6,
 
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active {
-    color: var(--primary);
+    color: var(--light);
 }
 
 .navbar .dropdown-toggle::after {
@@ -543,4 +556,109 @@ body {
 .card:hover {
     transform: scale(1.02);
     transition: 0.2s ease-in-out;
+}
+
+/* Back button */
+.back-btn {
+    position: absolute; 
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("../media/plant_bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  z-index: -2;
+}
+
+.background-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.main-login-card {
+  width: 85%;
+  max-width: 1000px;
+  min-height: 500px;
+  border-radius: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  z-index: 10;
+  background-color: #b9dfb5 !important;
+}
+
+.welcome-side {
+  flex: 1;
+  padding: 50px 40px;
+  color: #1a3d1a; 
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #b9dfb5;
+}
+
+.welcome-side h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.welcome-side p {
+  max-width: 350px;
+  font-size: 1.1rem;
+  color: #2f522f;
+}
+
+.plant-anim {
+  width: 160px;
+  margin-top: 20px;
+  animation: floatPlant 3s ease-in-out infinite;
+}
+
+.login-side {
+  flex: 1;
+  background-color: #b9dfb5; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: transparent;
+}
+
+.card-auth {
+  background-color: #ffffff; 
+  border-radius: 15px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-success {
+  background-color: #4b9e41;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #3a8335;
+}
+
+@keyframes floatPlant {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }

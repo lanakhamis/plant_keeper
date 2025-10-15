@@ -4,28 +4,32 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/signup.css' %}">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-{% endblock %} 
+{% endblock %}
+
 {% block content %}
 
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card-auth p-4" style="width: 100%; max-width: 400px;">
-      <h2 class="text-center mb-3">🌿 Plant Keeper</h2>
-      <h5 class="text-center mb-4 text-muted">Create a new account</h5>
+<div class="signup-page-container d-flex justify-content-center align-items-center vh-100 position-relative">
+  
+  <div class="background-overlay"></div>
 
+  <div class="card-auth p-4" style="width: 100%; max-width: 400px; z-index: 10;">
+    <h2 class="text-center mb-3">🌿 Plant Keeper</h2>
+    <h5 class="text-center mb-4 text-muted">Create a new account</h5>
 
-      <form method="POST">
+    <form method="POST">
       {% csrf_token %}
-  {% for field in form %}
-    <div class="mb-3">
-      {{ field.label_tag }}
-      {{ field }}
-      {% if field.errors %}
-        <div class="text-danger">{{ field.errors }}</div>
-      {% endif %}
-    </div>
-  {% endfor %}
-  <button type="submit" class="btn btn-plant w-100 mt-2">Sign Up</button>
-</form>
+      {% for field in form %}
+        <div class="mb-3">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-plant w-100 mt-2">Sign Up</button>
+    </form>
+
     <p class="text-center mt-3">
       Already have an account? <a href="{% url 'login' %}">Login</a>
     </p>
