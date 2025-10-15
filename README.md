@@ -34,8 +34,7 @@ The main goal of this project is to make plant maintenance easy and consistent b
 
 The project includes the following models:
 
-    User (Django default model)
-
+## User (Django default model)
 | Field    | Type                 | Description          |
 | -------- | -------------------- | -------------------- |
 | user_id  | Serial (Primary Key) | Unique user ID       |
@@ -43,41 +42,47 @@ The project includes the following models:
 | email    | CharField            | Email of the user    |
 | password | CharField            | Password of the user |
 
-    Plants
+## Profile
+| Field   | Type                 | Description                |
+| ------- | -------------------- | -------------------------- |
+| id      | Serial (Primary Key) | Unique profile ID          |
+| user_id | ForeignKey(User)     | Related user               |
+| image   | ImageField           | Profile picture of user    |
+| bio     | TextField            | Short biography or details |
 
+## Plants
 | Field              | Type                 | Description                     |
 | ------------------ | -------------------- | ------------------------------- |
 | plant_id           | Serial (Primary Key) | Unique plant ID                 |
 | name               | CharField            | Name of the plant               |
 | species            | CharField            | Type or species of the plant    |
-| watering_frequency | Numeric              | Watering times per week         |
-| last_watered_date  | Datetime             | Last date the plant was watered |
 | date_added         | Date                 | Date plant was added            |
+| last_watered_date  | DateTime             | Last date the plant was watered |
+| watering_frequency | Integer              | Watering times per week         |
 | notes              | TextField            | Additional notes                |
 | user_id            | ForeignKey(User)     | The owner of the plant          |
 
-    CareLog
-
+## CareLog
 | Field       | Type                 | Description                      |
 | ----------- | -------------------- | -------------------------------- |
-| care_id     | Serial (Primary Key) | Unique care ID                   |
+| id          | Serial (Primary Key) | Unique care log ID               |
 | plant_id    | ForeignKey(Plant)    | Plant being cared for            |
 | action_type | CharField            | Action performed (e.g., Watered) |
 | date        | Date                 | Date of the action               |
-| note        | TextField            | Additional notes                 |
+| notes       | TextField            | Additional notes                 |
 
-    Reminder
-
+## Reminder
 | Field         | Type                 | Description                           |
 | ------------- | -------------------- | ------------------------------------- |
 | reminder_id   | Serial (Primary Key) | Unique reminder ID                    |
 | plant_id      | ForeignKey(Plant)    | Related plant                         |
-| reminder_type | CharField            | Type of reminder (e.g., Water, Prune) |
 | reminder_date | Date                 | Date for the reminder                 |
-| is_completed  | Boolean              | Status of reminder (True/False)       |
+| reminder_type | CharField            | Type of reminder (e.g., Water, Prune) |
+| message       | TextField            | Reminder message or details           |
 
     📊 An ERD diagram illustrating these relationships can be added here as an image:
 
+![ERD Diagram](ERD.jpeg)
 
 ### 💻 Installation Guide
 
