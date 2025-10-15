@@ -141,7 +141,6 @@
                 
                 <div class="row mb-5 align-items-center border-bottom pb-4">
                     <div class="col-md-4 text-center">
-                        <!-- صورة البروفايل مع المعاينة الفورية -->
                         <label for="{{ p_form.image.id_for_label }}" class="profile-pic-wrapper mb-3">
                             <img id="imagePreview" src="{{ user.profile.image.url }}" alt="My Profile Picture">
                             <div class="overlay">
@@ -153,7 +152,6 @@
                             {{ p_form.image }}
                         </div>
 
-                        <!-- زر إزالة الصورة -->
                         <button type="button" id="removeImage" class="btn btn-outline-danger btn-sm mt-2">
                             <i class="bi bi-trash"></i> Remove Photo
                         </button>
@@ -259,7 +257,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    imagePreview.src = "/media/profile_pics/default.jpg"; // غيّريها حسب مكان صورتك الافتراضية
+                    imagePreview.src = "/media/profile_pics/default.jpg"; 
                     alert("Profile photo has been removed ✅");
                 }
             });

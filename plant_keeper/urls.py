@@ -18,31 +18,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from django.conf import settings  # 💡 أضيفي هذا
-from django.conf.urls.static import static  # 💡 أضيفي هذا
+from django.conf import settings  
+from django.conf.urls.static import static  
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # هذا يربط روابط main_app
     path("", include("main_app.urls")),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# urlpatterns = [
-#     path("admin/", admin.site.urls),
-#     path("plants/", include("main_app.urls")),  #
-#     path(
-#         "",
-#         auth_views.LoginView.as_view(template_name="plants/login.html"),
-#         name="login",
-#     ),  # هنا
-#     path("signup/", include("main_app.urls")),  # لو عندك signup هنا
-# ]
-
-
-# # 💡 أضيفي هذا الجزء ليعمل تحميل الصور
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
