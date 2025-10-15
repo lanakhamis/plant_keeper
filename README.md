@@ -1,14 +1,13 @@
 # planet_keeper
-## 🌿 Plant Keeper – Project README
 
-### 📘 Project Overview
+## 📘 Project Overview
 
 The Plant Keeper project is a practical Django web application designed to help users take better care of their plants.
 It enables users to record important details such as plant name, species, and watering frequency, and provides reminders when it’s time to water them.
 
 The main goal of this project is to make plant maintenance easy and consistent by offering an intuitive system that tracks watering schedules and plant health over time.
 
-### 🧠 Objectives
+## 🧠 Objectives
 
 -Help users manage their plants efficiently.
 
@@ -20,7 +19,7 @@ The main goal of this project is to make plant maintenance easy and consistent b
 
 -Provide a base that can be expanded into advanced applications (with GUI or notifications)
 
-### ⚙️ Tech Stack
+## ⚙️ Tech Stack
 
 | Category            | Tools & Technologies        |
 | ------------------- | --------------------------- |
@@ -30,11 +29,11 @@ The main goal of this project is to make plant maintenance easy and consistent b
 | **Version Control** | Git & GitHub                |
 | **IDE / Tools**     | Visual Studio Code          |
 
-### 🗃️ Database Design (ERD Overview)
+## 🗃️ Database Design (ERD Overview)
 
 The project includes the following models:
 
-## User (Django default model)
+### User (Django default model)
 | Field    | Type                 | Description          |
 | -------- | -------------------- | -------------------- |
 | user_id  | Serial (Primary Key) | Unique user ID       |
@@ -42,7 +41,7 @@ The project includes the following models:
 | email    | CharField            | Email of the user    |
 | password | CharField            | Password of the user |
 
-## Profile
+### Profile
 | Field   | Type                 | Description                |
 | ------- | -------------------- | -------------------------- |
 | id      | Serial (Primary Key) | Unique profile ID          |
@@ -50,7 +49,7 @@ The project includes the following models:
 | image   | ImageField           | Profile picture of user    |
 | bio     | TextField            | Short biography or details |
 
-## Plants
+### Plants
 | Field              | Type                 | Description                     |
 | ------------------ | -------------------- | ------------------------------- |
 | plant_id           | Serial (Primary Key) | Unique plant ID                 |
@@ -62,7 +61,7 @@ The project includes the following models:
 | notes              | TextField            | Additional notes                |
 | user_id            | ForeignKey(User)     | The owner of the plant          |
 
-## CareLog
+### CareLog
 | Field       | Type                 | Description                      |
 | ----------- | -------------------- | -------------------------------- |
 | id          | Serial (Primary Key) | Unique care log ID               |
@@ -71,7 +70,7 @@ The project includes the following models:
 | date        | Date                 | Date of the action               |
 | notes       | TextField            | Additional notes                 |
 
-## Reminder
+### Reminder
 | Field         | Type                 | Description                           |
 | ------------- | -------------------- | ------------------------------------- |
 | reminder_id   | Serial (Primary Key) | Unique reminder ID                    |
@@ -80,11 +79,11 @@ The project includes the following models:
 | reminder_type | CharField            | Type of reminder (e.g., Water, Prune) |
 | message       | TextField            | Reminder message or details           |
 
-    📊 An ERD diagram illustrating these relationships can be added here as an image:
+## 📊 An ERD diagram illustrating these relationships can be added here as an image:
 
 ![ERD Diagram](ERD.jpeg)
 
-### 💻 Installation Guide
+## 💻 Installation Guide
 
 Follow these steps to set up the project locally:
 
@@ -115,7 +114,7 @@ Follow these steps to set up the project locally:
 6.Open the app:
     Go to http://localhost:8000   
 
-### 🧪 Running Tests
+## 🧪 Running Tests
 
 To ensure the application works as expected, automated tests are provided for the models and views.
 
@@ -146,7 +145,7 @@ To ensure the application works as expected, automated tests are provided for th
 
 5.Authentication-required access for protected views 
 
-### 👥 User Stories
+## 👥 User Stories
 
 | # | User Type   | User Story                                                                          | Acceptance Criteria                                 |
 | - | ----------- | ----------------------------------------------------------------------------------- | --------------------------------------------------- |
@@ -157,8 +156,7 @@ To ensure the application works as expected, automated tests are provided for th
 | 5 | Plant Owner | As a user, I want to view all my plants in one place.                               | Dashboard shows all user plants.                    |
 
 
-
-### 🚀 Future Enhancements
+## 🚀 Future Enhancements
 
     1.Smart watering notifications (via email or SMS)
     2.Image upload for each plant
@@ -166,15 +164,15 @@ To ensure the application works as expected, automated tests are provided for th
     4.Dark mode support
     5.Community sharing page
 
-### 🧩 Challenges & Solutions
+## 🧩 Challenges & Solutions
 
 
-### 📝 Summary
+## 📝 Summary
 
     Plant Keeper simplifies plant care by organizing plant data, tracking watering schedules, and providing reminders — turning daily plant care into a smooth and enjoyable experience.
     It also serves as a great project for learning Django, database modeling, and full-stack web development fundamentals.
 
-### 🧑‍💻 Team Members
+## 🧑‍💻 Team Members
 
     Leen EmadAddin AbdelHalim
     Lana Omar Khamis
