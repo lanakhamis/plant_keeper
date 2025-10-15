@@ -75,7 +75,6 @@ class PlantDetail(LoginRequiredMixin, DetailView):
             plant=plant, is_completed=False, reminder_date=date.today()
         )
 
-        # سجل العناية (Care Log) مرتب حسب الأحدث أولاً
         context['care_logs'] = CareLog.objects.filter(plant=plant).order_by('-date')
 
         return context
@@ -115,7 +114,6 @@ class CareLogCreate(LoginRequiredMixin, CreateView):
             from django.http import HttpResponseBadRequest
             return HttpResponseBadRequest("Missing plant_id")
 
-        # ربط الـ CareLog بالنبتة قبل الحفظ
         form.instance.plant_id = plant_id
         return super().form_valid(form)
     
@@ -128,7 +126,6 @@ class CareLogCreate(LoginRequiredMixin, CreateView):
 
 
     def get_success_url(self):
-        # بعد الحفظ، إعادة التوجيه إلى صفحة تفاصيل النبتة
         return reverse("plant_detail", kwargs={"pk": self.object.plant.pk})
 
 class ReminderCreate(LoginRequiredMixin, CreateView):

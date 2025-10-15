@@ -20,7 +20,6 @@ class PlantForm(forms.ModelForm):
         }
 
 
-# ✅ فورم التذكيرات (Reminders)
 class ReminderForm(forms.ModelForm):
     class Meta:
         model = Reminder
@@ -38,7 +37,7 @@ class ReminderForm(forms.ModelForm):
 class CareLogForm(forms.ModelForm):
     class Meta:
         model = CareLog
-        fields = ['action', 'note']  # التاريخ يضيف تلقائياً بسبب auto_now_add
+        fields = ['action', 'note']  
         widgets = {
             'note': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Add any notes...'}),
             'action': forms.Select(attrs={'class': 'form-select'}),
@@ -53,25 +52,18 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username", "email", "password1", "password2")
-# نموذج لتعديل البيانات المرتبطة بـ Profile
-# ... (باقي الاستيرادات)
 
-# نموذج لتعديل بيانات المستخدم الأساسية (Email)
 class UserUpdateForm(forms.ModelForm):
-    # يمكننا إضافة حقل الإيميل هنا
     email = forms.EmailField() 
     
     class Meta:
         model = User
-        # الحقول التي سيتم تعديلها من نموذج User
         fields = ['username', 'email']
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        # الحقول التي سيتم تعديلها من نموذج Profile
         fields = ['image', 'bio']
-        # 💡 التعديل هنا: لإخفاء اسم الحقل 'image' من النموذج
         labels = {
-            'image': '', # تعيين القيمة الفارغة لمنع ظهور اسم الحقل
+            'image': '', 
         }

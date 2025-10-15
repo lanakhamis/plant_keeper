@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block title %}{{ plant.name }}{% endblock %}
+
 {% block content %}
-<div class="container py-5">
-  <div class="card shadow-sm border-0">
+<div class="container py-5 position-relative">
+
+  <!-- Back button -->
+  <a href="{% url 'plant_list' %}" class="btn btn-secondary back-btn">⬅️ Back</a>
+
+  <div class="card shadow-sm border-0 mt-4">
     <div class="card-body">
       <h2 class="text-success">
         {{ plant.name }}
@@ -16,6 +21,7 @@
           {% endfor %}
         {% endif %}
       </h2>
+      
       <p class="text-muted mb-2"><strong>Species:</strong> {{ plant.species }}</p>
       <p><strong>Date added:</strong> {{ plant.date_added|date:"Y-m-d" }}</p>
       <p><strong>Last watered:</strong>
@@ -33,7 +39,6 @@
         {% endif %}
       </p>
 
-
       <p><strong>Water every:</strong> {{ plant.watering_frequency }} days</p>
       <p><strong>Notes:</strong> {{ plant.notes|default:"-" }}</p>
 
@@ -42,44 +47,42 @@
       <div class="d-flex gap-2">
         <a href="{% url 'plant_edit' plant.pk %}" class="btn btn-outline-success">✏️ Edit</a>
         <a href="{% url 'plant_delete' plant.pk %}" class="btn btn-outline-danger">🗑️ Delete</a>
-        <a href="{% url 'plant_list' %}" class="btn btn-secondary">⬅️ Back</a>
         <a href="{% url 'reminder_add' %}?plant_id={{ plant.id }}" class="btn btn-outline-success">⏰ Add Reminder</a>
-      
       </div>
 
-         <hr>
+      <hr>
       <h4 class="mt-4 text-success">🌱 Care Log</h4>
       <div class="mb-3">
           <a href="{% url 'carelog_add' %}?plant_id={{ plant.id }}" class="btn btn-outline-success mb-2">➕ Add Care Log</a>
       </div>
 
       {% if care_logs %}
-    <ul>
+        <ul>
           {% for log in care_logs %}
             <li>
               <strong>{{ log.action }}</strong> – {{ log.date|date:"Y-m-d" }}<br>
               <small>{{ log.note|default:"-" }}</small>
             </li>
           {% endfor %}
-          </ul>
+        </ul>
       {% else %}
-          <p class="text-muted">No care logs yet.</p>
+        <p class="text-muted">No care logs yet.</p>
       {% endif %}
-  
+
       <hr>    
       <h4 class="mt-4 text-success">⏰ Upcoming Reminders</h4>
-          {% if reminders %}
-            <ul>
-              {% for reminder in reminders %}
-                <li>
-                  <strong>{{ reminder.reminder_type }}</strong> – {{ reminder.reminder_date }}<br>
-                  <small>{{ reminder.message }}</small>
-                </li>
-               {% endfor %}
-            </ul>
-          {% else %}
-            <p class="text-muted">No reminders yet.</p>
-          {% endif %}
+      {% if reminders %}
+        <ul>
+          {% for reminder in reminders %}
+            <li>
+              <strong>{{ reminder.reminder_type }}</strong> – {{ reminder.reminder_date }}<br>
+              <small>{{ reminder.message }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">No reminders yet.</p>
+      {% endif %}
     </div>
   </div>
 </div>

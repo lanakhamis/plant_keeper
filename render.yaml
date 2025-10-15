@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: plant-keeper
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn plant_keeper.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: plant_keeper.settings
+      - key: PYTHON_VERSION
+        value: 3.11
