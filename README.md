@@ -137,7 +137,7 @@ To ensure the application works as expected, automated tests are provided for th
 
 1.Plant model methods (needs_watering, next_watering_date)
 
-2.Reminder model methods (is_due, mark_completed)
+2.Reminder model methods (is_due)
 
 3.CRUD views for Plants (list, detail, create, update, delete)
 
