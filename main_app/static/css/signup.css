@@ -1,13 +1,17 @@
 /* ====== BODY ====== */
 body {
-    background-color: #eaf7ea;
+    background-image: url('/static/media/plant_bg.jpg'); /* نفس الصورة المستخدمة في بقية الصفحات */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
 }
+
 
 /* ====== CARD ====== */
 .card-auth {

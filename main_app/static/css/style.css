@@ -662,3 +662,8 @@ body {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
+body.home-page {
+    background-color: #c1d7bf !important; /* أخضر فاتح */
+    min-height: 100vh;
+}
+
